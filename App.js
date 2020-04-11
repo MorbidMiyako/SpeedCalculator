@@ -6,7 +6,7 @@ export default function App() {
   const difficulty = {
     maxNumber: 10,
     operators: [
-      "+", "-", "*"
+      "+", "-", "*", "/"
     ],
     exerciseAmount: 5
   }
@@ -55,7 +55,7 @@ export default function App() {
       console.log("WRRRONG")
       setCalculation(randomSumCalculator(difficulty))
     }
-    else if (calculation.secondNumber === calculation.answer || calculation.secondNumber === calculation.answer) {
+    if (calculation.firstNumber == 1 || calculation.secondNumber == 1 || calculation.answer == 1) {
       console.log("WRRRONG")
       setCalculation(randomSumCalculator(difficulty))
     }
