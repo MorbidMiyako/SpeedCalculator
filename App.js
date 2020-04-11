@@ -6,7 +6,7 @@ export default function App() {
   const difficulty = {
     maxNumber: 10,
     operators: [
-      "+", "-", "*", "/"
+      "+", "-", "x", "/"
     ],
     exerciseAmount: 20
   }
@@ -18,7 +18,7 @@ export default function App() {
   const math_it_up = {
     '+': function (x, y) { return x + y },
     '-': function (x, y) { return x - y },
-    '*': function (x, y) { return x * y },
+    'x': function (x, y) { return x * y },
     '/': function (x, y) { return x / y }
   };
 
@@ -92,9 +92,11 @@ export default function App() {
 
       if (amountCorrect + 1 === exerciseAmount) {
         console.log("YOU FINISHED YOU DUMDUM")
-        let secondsPassed = (Date.now() - startTime) / 1000
+        let timePassed = Date.now() - startTime
+        let minutesPassed = Math.floor(timePassed / 1000 / 60)
+        let secondsPassed = Math.floor((timePassed / 1000) - (minutesPassed * 60))
         setFinished(true)
-        setFinishedText(`You finished ${exerciseAmount} calculations in ${secondsPassed} seconds`)
+        setFinishedText(`You finished ${exerciseAmount} calculations in ${minutesPassed} minutes and ${secondsPassed} seconds`)
 
         console.log("YOU FINISHED YOU DUMDUM", calculation)
         return
@@ -121,7 +123,7 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.sum}>
         {finished ? (
-          <Text>{finishedText}</Text>
+          <Text style={styles.finishedText}>{finishedText}</Text>
         ) : (
             <View>
               <Text style={styles.sumText, styles.answersCorrect}> {`Answers correct: ${amountCorrect}`} </Text>
@@ -208,7 +210,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    height: "80%"
+    height: "80%",
   },
   buttons: {
     flex: 1,
@@ -229,7 +231,7 @@ const styles = StyleSheet.create({
     borderColor: "black"
   },
   sumText: {
-    fontSize: 30
+    fontSize: 40
   },
   buttonTexts: {
     fontSize: 100
@@ -241,7 +243,12 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   answersCorrect: {
-    color: "green"
+    color: "green",
+    fontSize: 30,
+  },
+  finishedText: {
+    fontSize: 30,
+    margin: "5%"
   }
 
 });
