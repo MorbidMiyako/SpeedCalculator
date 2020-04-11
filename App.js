@@ -8,7 +8,7 @@ export default function App() {
     operators: [
       "+", "-", "*", "/"
     ],
-    exerciseAmount: 5
+    exerciseAmount: 20
   }
 
   function randomNumberGenerator(maxNumber, minNumber = 1) {
