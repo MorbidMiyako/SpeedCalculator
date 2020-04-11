@@ -7,7 +7,8 @@ export default function App() {
     maxNumber: 10,
     operators: [
       "+", "-", "*"
-    ]
+    ],
+    exerciseAmount: 5
   }
 
   function randomNumberGenerator(maxNumber, minNumber = 1) {
@@ -50,11 +51,11 @@ export default function App() {
       console.log("WRRRONG")
       setCalculation(randomSumCalculator(difficulty))
     }
-    else if (calculation.firstNumber % calculation.secondNumber != 0) {
+    else if (calculation.answer % 1 != 0) {
       console.log("WRRRONG")
       setCalculation(randomSumCalculator(difficulty))
     }
-    else if (calculation.secondNumber === calculation.firstNumber || calculation.secondNumber === 1) {
+    else if (calculation.secondNumber === calculation.answer || calculation.secondNumber === calculation.answer) {
       console.log("WRRRONG")
       setCalculation(randomSumCalculator(difficulty))
     }
@@ -64,14 +65,30 @@ export default function App() {
   function check(checkNumber, calculation, number) {
     checkNumber = `${checkNumber}${number}`
 
+    if (!startTime) {
+      setStartTime(Date.now())
+      console.log(startTime)
+    }
+
     if (calculation.answer == checkNumber) {
       setAmountCorrect(amountCorrect + 1)
       setCalculation(randomSumCalculator(difficulty))
+
       console.log("-----------------------------------------------------------------------------")
       console.log("-----------------------------------------------------------------------------")
+      console.log(amountCorrect, exerciseAmount)
       console.log("-----------------------------------------------------------------------------")
       console.log("-----------------------------------------------------------------------------")
 
+      if (amountCorrect === exerciseAmount) {
+        console.log("YOU FINISHED YOU DUMDUM")
+        let secondsPassed = (Date.now() - startTime) / 1000
+        setFinished(true)
+        setFinishedText(`You finished ${exerciseAmount} calculations in ${secondsPassed} seconds`)
+
+        console.log("YOU FINISHED YOU DUMDUM", calculation)
+        return
+      }
       return reset()
     }
 
@@ -80,6 +97,10 @@ export default function App() {
 
   const initialCalculation = randomSumCalculator(difficulty)
 
+  const [finishedText, setFinishedText] = useState("")
+  const [finished, setFinished] = useState(false)
+  const [startTime, setStartTime] = useState(false)
+  const [exerciseAmount, setExerciseAmount] = useState(difficulty.exerciseAmount)
   const [amountCorrect, setAmountCorrect] = useState(0)
   const [checkNumber, setCheckNumber] = useState("")
   const [calculation, setCalculation] = useState(initialCalculation)
@@ -89,9 +110,16 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.sum}>
-        <Text style={styles.sumText, styles.answersCorrect}> {`Answers correct: ${amountCorrect}`} </Text>
-        <Text style={styles.sumText}> {`${calculation.firstNumber} ${calculation.operator} ${calculation.secondNumber}= `} </Text>
-        <Text style={styles.sumText, styles.currentAnswer}>{checkNumber}</Text>
+        {finished ? (
+          <Text>{finishedText}</Text>
+        ) : (
+            <View>
+              <Text style={styles.sumText, styles.answersCorrect}> {`Answers correct: ${amountCorrect}`} </Text>
+              <Text style={styles.sumText, styles.answersCorrect}> {`${amountCorrect} out of ${exerciseAmount} done.`} </Text>
+              <Text style={styles.sumText}> {`${calculation.firstNumber} ${calculation.operator} ${calculation.secondNumber}= `} </Text>
+              <Text style={styles.sumText, styles.currentAnswer}>{checkNumber}</Text>
+            </View>
+          )}
       </View>
       <View style={styles.keypad} >
         <View style={styles.buttons}>
@@ -170,7 +198,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flex: 1,
-    backgroundColor: "blue",
+    backgroundColor: "grey",
     flexDirection: "row",
     height: "80%",
     width: "80%",
