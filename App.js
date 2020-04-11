@@ -62,6 +62,15 @@ export default function App() {
 
   }
 
+  function newGame() {
+    setStartTime(false)
+    setExerciseAmount(difficulty.exerciseAmount)
+    setAmountCorrect(0)
+    setCheckNumber("")
+    setCalculation(randomSumCalculator(difficulty))
+    setFinished(false)
+  }
+
   function check(checkNumber, calculation, number) {
     checkNumber = `${checkNumber}${number}`
 
@@ -71,7 +80,8 @@ export default function App() {
     }
 
     if (calculation.answer == checkNumber) {
-      setAmountCorrect(amountCorrect + 1)
+      let newAmountCorrect = amountCorrect + 1
+      setAmountCorrect(newAmountCorrect)
       setCalculation(randomSumCalculator(difficulty))
 
       console.log("-----------------------------------------------------------------------------")
@@ -80,7 +90,7 @@ export default function App() {
       console.log("-----------------------------------------------------------------------------")
       console.log("-----------------------------------------------------------------------------")
 
-      if (amountCorrect === exerciseAmount) {
+      if (amountCorrect + 1 === exerciseAmount) {
         console.log("YOU FINISHED YOU DUMDUM")
         let secondsPassed = (Date.now() - startTime) / 1000
         setFinished(true)
@@ -95,7 +105,7 @@ export default function App() {
     return checkNumber
   }
 
-  const initialCalculation = randomSumCalculator(difficulty)
+  // const initialCalculation = 
 
   const [finishedText, setFinishedText] = useState("")
   const [finished, setFinished] = useState(false)
@@ -103,7 +113,7 @@ export default function App() {
   const [exerciseAmount, setExerciseAmount] = useState(difficulty.exerciseAmount)
   const [amountCorrect, setAmountCorrect] = useState(0)
   const [checkNumber, setCheckNumber] = useState("")
-  const [calculation, setCalculation] = useState(initialCalculation)
+  const [calculation, setCalculation] = useState(randomSumCalculator(difficulty))
 
   validSum(calculation)
 
@@ -165,6 +175,10 @@ export default function App() {
           </TouchableOpacity>
         </View>
         <View style={styles.buttons}>
+          <TouchableOpacity style={styles.buttonText}
+            Button title='new' onPress={() => { newGame() }}>
+            <Text style={styles.buttonReset}>New</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.buttonText}
             Button title='0' onPress={() => { setCheckNumber(check(checkNumber, calculation, "0")) }}>
             <Text style={styles.buttonTexts}>0</Text>
