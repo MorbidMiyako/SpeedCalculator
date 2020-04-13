@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, Touchable } from 'rea
 export default function App() {
 
   const difficulty = {
-    maxNumber: 10,
+    maxNumber: 20,
     operators: [
       "+", "-", "x", "/"
     ],
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   answersCorrect: {
-    color: "green",
+    color: "blue",
     fontSize: 30,
   },
   finishedText: {
